@@ -1,0 +1,29 @@
+# Estándares de Automatización - QA Playwright
+
+Este documento define las reglas de oro y la arquitectura que el agente debe seguir para generar código de automatización.
+
+## 1. Arquitectura y Patrones
+* **Patrón Obligatorio:** Usar Page Object Model (POM).
+* **Estructura de Clase:** Cada página debe tener su propia clase donde los selectores se definan al principio y los métodos de acción después.
+* **Lenguaje:** TypeScript (usar tipado fuerte para mejorar la mantenibilidad).
+
+## 2. Estrategia de Locators (Prioridad de búsqueda)
+El agente debe generar locators siguiendo estrictamente este orden de preferencia para evitar tests frágiles:
+1.  `page.getByTestId()` (Para elementos con el atributo data-testid).
+2.  `page.getByRole()` (Priorizando accesibilidad: button, heading, link).
+3.  `page.getByLabel()` (Para formularios).
+4.  `page.getByText()` (Para contenido estático).
+*Nota: Evitar XPaths absolutos y selectores CSS basados en clases dinámicas.*
+
+## 3. Manejo de Asincronía y Esperas
+* No usar jamás `page.waitForTimeout()`.
+* Usar esperas automáticas (web-first assertions) como `expect(locator).toBeVisible()`.
+* Para flujos de carga pesados, usar `page.waitForLoadState('networkidle')` o esperar a que un elemento clave aparezca.
+
+## 4. Estilo de Código
+* **Naming:** Clases en PascalCase (ej: LoginPage), métodos y variables en camelCase (ej: clickLoginButton).
+* **Hooks:** Usar `test.beforeEach` para configuraciones comunes (como el login) y `test.afterEach` para limpieza de datos.
+* **Comentarios:** Incluir comentarios breves que expliquen el "por qué" de una acción compleja, no el "qué".
+
+## 5. Reportes y Debugging
+* Configurar siempre capturas de pantalla (`screenshot: 'only-on-failure'`) y trazas (`trace: 'retain-on-failure'`) en el archivo de configuración sugerido.
