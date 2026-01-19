@@ -16,7 +16,7 @@
 
 1.  Clona el repositorio:
     ```bash
-    git clone [https://github.com/tu-usuario/atlas-qa.git](https://github.com/tu-usuario/atlas-qa.git)
+    git clone [https://github.com/JSmarulandaB/AtlasQA.git](https://github.com/JSmarulandaB/AtlasQA.git)
     cd atlas-qa
     ```
 2.  Instala las dependencias:
